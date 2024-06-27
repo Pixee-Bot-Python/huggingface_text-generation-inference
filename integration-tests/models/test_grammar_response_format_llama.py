@@ -50,7 +50,7 @@ async def test_grammar_response_format_llama_json(llama_grammar, response_snapsh
             "max_tokens": 500,
             "response_format": {"type": "json_object", "value": Weather.schema()},
         },
-    )
+    timeout=60)
 
     chat_completion = response.json()
     called = chat_completion["choices"][0]["message"]["content"]
@@ -93,7 +93,7 @@ async def test_grammar_response_format_llama_error_if_tools_not_installed(
             "tools": [],
             "response_format": {"type": "json_object", "value": Weather.schema()},
         },
-    )
+    timeout=60)
 
     # 422 means the server was unable to process the request because it contains invalid data.
     assert response.status_code == 422
