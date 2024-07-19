@@ -3,7 +3,6 @@ import contextlib
 import json
 import math
 import os
-import random
 import re
 import shutil
 import subprocess
@@ -30,6 +29,7 @@ from text_generation.types import (
     Response,
     Token,
 )
+import secrets
 
 DOCKER_IMAGE = os.getenv("DOCKER_IMAGE", None)
 HF_TOKEN = os.getenv("HF_TOKEN", None)
@@ -334,8 +334,8 @@ def launcher(event_loop):
         max_batch_prefill_tokens: Optional[int] = None,
         max_total_tokens: Optional[int] = None,
     ):
-        port = random.randint(8000, 10_000)
-        master_port = random.randint(10_000, 20_000)
+        port = secrets.SystemRandom().randint(8000, 10_000)
+        master_port = secrets.SystemRandom().randint(10_000, 20_000)
 
         shard_uds_path = (
             f"/tmp/tgi-tests-{model_id.split('/')[-1]}-{num_shard}-{quantize}-server"
@@ -419,7 +419,7 @@ def launcher(event_loop):
         max_batch_prefill_tokens: Optional[int] = None,
         max_total_tokens: Optional[int] = None,
     ):
-        port = random.randint(8000, 10_000)
+        port = secrets.SystemRandom().randint(8000, 10_000)
 
         args = ["--model-id", model_id, "--env"]
 
